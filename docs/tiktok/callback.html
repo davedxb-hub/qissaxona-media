@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>:root{color-scheme:light dark}body{font:16px/1.55 system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 16px;background:#fff;color:#111}@media (prefers-color-scheme:dark){body{background:#111;color:#eee}}code,textarea{font:14px ui-monospace,monospace}textarea{width:100%;height:110px;box-sizing:border-box}button{font-size:16px;padding:8px 16px;margin-top:8px}</style><meta name="robots" content="noindex"><title>TikTok authorisation</title></head><body>
+<h1>TikTok authorisation</h1>
+<div id="out">Waiting for TikTok…</div>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search), out=document.getElementById('out');
+  if(q.get('error')){out.textContent='TikTok returned an error: '+q.get('error')+' '+(q.get('error_description')||'');return;}
+  var code=q.get('code');
+  if(!code){out.textContent='No code in the address. Start again from the "TikTok authorize" workflow link.';return;}
+  out.innerHTML='<p>Copy this code and paste it into the <b>TikTok authorize</b> workflow (action = exchange) within 5 minutes. It works once.</p><textarea id="c" readonly></textarea><br><button id="b">Copy code</button>';
+  var t=document.getElementById('c'); t.value=code;
+  document.getElementById('b').onclick=function(){t.select();try{navigator.clipboard.writeText(code);}catch(e){document.execCommand('copy');}this.textContent='Copied';};
+  history.replaceState(null,'',location.pathname);
+})();
+</script>
+</body></html>
